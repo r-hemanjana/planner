@@ -1,0 +1,39 @@
+<ion-content [fullscreen]="true">
+
+  <ion-row class="left-row">
+    <ion-col size="2">
+      <ion-buttons left>
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-col>
+    <ion-col size="8" style="text-align: center;">
+      <p class="dash">{{ month_year }}</p>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+    <ion-col class="header-container" size="12">
+      <div class="colofweek" (click)="changeday(day)" 
+        *ngFor="let day of sevenDaysAvailability">
+        <p class="day">{{day.day}}</p>
+        <p [class.select]="day.isSelect" class="date">{{day.date}}</p>
+      </div>
+    </ion-col> 
+  </ion-row>
+
+  <ion-row class="rowschedule" *ngFor="let plan of schedule_list">
+    <ion-col id="col-str" size="2">
+      <div id="divtime"><p>{{plan.startTime}}</p></div>
+    </ion-col>
+    <ion-col size="7.5">
+      <p id="name">{{plan.name}}</p>
+    </ion-col>
+    <ion-col size="2.5">
+      <p id="duration">{{plan.duration}}<span> {{plan.duration_type}}</span></p>
+    </ion-col>
+    <ion-col style="margin: 2px 0;" size="12">
+      <p id="detail" *ngFor="let desc of plan.description">{{desc.detail}}</p>
+    </ion-col>
+  </ion-row>
+  <ion-button *ngIf='schedule_list.length == 0' type="button" class="sch-btn" expand="block" shape="round" color="custom" fill="solid" routerLink="/schedule">Create Schedule</ion-button>
+  
+
+</ion-content>

@@ -1,0 +1,112 @@
+<ion-content >
+  <ion-row class="left-row">
+    <ion-col size="2">
+      <ion-buttons left>
+        <ion-menu-button></ion-menu-button>
+      </ion-buttons>
+    </ion-col>
+    <ion-col size="8" style="text-align: center;">
+      <p class="dash">Schedule</p>
+    </ion-col>
+    <ion-col size="2"></ion-col>
+  </ion-row>
+  <div>
+    <ion-item>
+      <ion-label> Schedule Name</ion-label>
+      <ion-input type="text" [(ngModel)]="scheduleGroup.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>From Date</ion-label>
+      <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="scheduleGroup.fromDate"  min="2020-01-01" max="2030-12-31">
+      </ion-datetime>
+    </ion-item>
+    <ion-row class="dividerow">
+      <ion-col size="6">
+        <ion-item>
+          <ion-label>Start Time</ion-label>
+          <ion-datetime displayFormat="HH:mm" [(ngModel)]="scheduleGroup.fromTime">
+          </ion-datetime>
+        </ion-item>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label> Duration</ion-label>
+          <ion-input type="text" [(ngModel)]="scheduleGroup.duration"></ion-input>
+          <span id="sp">mins</span>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="dividerow">
+      <ion-col size="6">
+        <ion-item>
+          <ion-label>Till</ion-label>
+          <ion-select [(ngModel)]="tillmediatortext" (ionChange)="modifyTill()">
+            <ion-select-option *ngFor="let opt of tillOptions" value={{opt.value}}>{{opt.name}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="tillmediatortext == 'until'" size="6">
+        <ion-item>
+          <ion-label>Date</ion-label>
+          <ion-datetime displayFormat="DD/MM/YYYY" [(ngModel)]="tillmediatorDate"  min="2020-01-01" max="2030-12-31">
+          </ion-datetime>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+    <ion-row class="dividerow">
+      <ion-col size="6">
+        <ion-item class="wantRepeat" lines={{line}}>
+          <ion-checkbox color="custom" [(ngModel)]="scheduleGroup.isRepeat"></ion-checkbox>
+          <ion-label>Want to repeat</ion-label>
+         
+        </ion-item>
+      </ion-col>
+      <ion-col *ngIf="scheduleGroup.isRepeat" size="6">
+        <ion-item>
+          <ion-select style="margin-left: auto;" [(ngModel)]="repeatSelected" (ionChange)="changeline()">
+            <ion-select-option *ngFor="let opt of repeatOptions" value={{opt}}>{{opt}}</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+
+   
+
+    <ion-row style="margin: 10px 0px;" *ngIf="repeatSelected == 'weekly'">
+      <ion-col class="header-container" size="12">
+        <div class="colofweek" (click)="day.isActive = !day.isActive" 
+          *ngFor="let day of days"  [class.selected_day]="day.isActive">
+          <p class="day">{{day.day}}</p>
+        </div>
+      </ion-col>
+    </ion-row>
+     
+    <ion-item [class.line]="repeatSelected == 'weekly'" lines="none">
+      <ion-label>Add Description</ion-label>
+      <div class="addcircle" (click)="enableAddDesc = true"><ion-icon name="add"></ion-icon></div>
+    </ion-item>
+    <div style="margin: 10px 0px;" *ngIf="scheduleGroup.description.length > 0" > 
+      <p class="descripP" *ngFor="let eachDesc of scheduleGroup.description">{{eachDesc.detail}}</p>
+    </div>
+    <div class="desctextdiv" *ngIf="enableAddDesc">
+      <ion-item  lines="none">
+        <ion-textarea rows="6" [(ngModel)]="detail" placeholder="Enter details of your schedule here.."></ion-textarea>
+      </ion-item>
+      <ion-button type="button" shape="round" fill="outline" color="custom" (click)="addDesc()">save</ion-button>
+    </div>
+    
+
+  </div>
+
+</ion-content>
+<ion-footer>
+  <ion-row>
+    <ion-col size="6">
+      <ion-button type="button" class="sch-btn" expand="block" color="grey" fill="solid" (click)="close()">Close
+      </ion-button>
+    </ion-col>
+    <ion-col size="6">
+      <ion-button type="button" class="sch-btn" expand="block" color="custom" fill="solid" (click)="Save()">Save</ion-button>
+    </ion-col>
+  </ion-row>
+</ion-footer>
